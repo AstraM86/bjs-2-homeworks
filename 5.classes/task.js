@@ -1,11 +1,11 @@
 class PrintEditionItem {
-	constructor(name, releaseDate, pagesCount, state = 100, type = null) {
-		this.name = name;
-		this.releaseDate = releaseDate;
-		this.pagesCount = pagesCount;
-		this._state = state;
-		this.type = type;
-	}
+	constructor(name, releaseDate, pagesCount) {
+        this.name = name;
+        this.releaseDate = releaseDate;
+        this.pagesCount = pagesCount;
+        this.state = 100;
+        this.type = null;
+    }
 	fix() {
 		this._state *= 1.5;
 	}
@@ -24,33 +24,33 @@ class PrintEditionItem {
 }
 
 class Magazine extends PrintEditionItem {
-	constructor(name, releaseDate, pagesCount, state, type) {
-		super(name, releaseDate, pagesCount, state, type);
+	constructor(name, releaseDate, pagesCount) {
+		super(name, releaseDate, pagesCount);
 		type = "magazine";
 	}
 }
 class Book extends PrintEditionItem {
-	constructor(author, name, releaseDate, pagesCount, state, type) {
-		super(name, releaseDate, pagesCount, state, type);
+	constructor(author, name, releaseDate, pagesCount) {
+		super(name, releaseDate, pagesCount);
 		this.author = author;
 		type = "book";
 	}
 }
 class NovelBook extends Book {
-	constructor(author, name, releaseDate, pagesCount, state, type) {
-		super(author, name, releaseDate, pagesCount, state, type);
+	constructor(author, name, releaseDate, pagesCount) {
+		super(author, name, releaseDate, pagesCount);
 		type = "novel";
 	}
 }
 class FantasticBook extends Book {
-	constructor(author, name, releaseDate, pagesCount, state, type) {
-		super(author, name, releaseDate, pagesCount, state, type);
+	constructor(author, name, releaseDate, pagesCount) {
+		super(author, name, releaseDate, pagesCount);
 		type = "fantastic";
 	}
 }
 class DetectiveBook extends Book {
-	constructor(author, name, releaseDate, pagesCount, state, type) {
-		super(author, name, releaseDate, pagesCount, state, type);
+	constructor(author, name, releaseDate, pagesCount) {
+		super(author, name, releaseDate, pagesCount);
 		type = "detective";
 	}
 }
@@ -69,14 +69,18 @@ class Library {
 	}
 
 	findBookBy(type, value) {
-		return this.books.fined(book => book[type] === value) || null;
-	}
+        const foundBook = this.books.find(book => book[type] === value);
+        return foundBook !== undefined ? foundBook : null;
+    }
 
 	giveBookByName(bookName) {
-		let bookIndex = this.books.findIndex(book => book.name === bookName);
-		if (bookIndex !== -1) {
-			return this.books.splice(bookIndex, 1)[0];
-		}
-		return null;
-	}
+        const index = this.books.findIndex(book => book.name === bookName);
+        if (index !== -1) {
+            const book = this.books[index];
+            this.books.splice(index, 1);
+            return book;
+        } else {
+            return null;
+        }
+    }
 }
