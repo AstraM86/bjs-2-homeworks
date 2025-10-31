@@ -66,9 +66,7 @@ class Library {
 		}
 	}
 	findBookBy(type, value) {
-		const result = this.books.find((book) =>
-			book.hasOwnProperty(type) && book[type] === value);
-		return result || null;
+		return this.books.find(book => book[type] === value) || null;
 	}
 	giveBookByName(bookName) {
 		const index = this.books.findIndex(book => book?.name === bookName);
@@ -77,4 +75,47 @@ class Library {
 		}
 		return null;
 	}
+}
+
+class Student {
+  constructor(name) {
+    this.name = name;
+    this.marks = {};
+  }
+
+  addMark(mark, subject) {
+    if (mark < 2 || mark > 5) return;
+
+    if (!this.marks[subject]) {
+      this.marks[subject] = [];
+    } 
+    this.marks[subject].push(mark);
+  }
+
+  getAverageBySubject(subject) {
+    if (!this.marks[subject] || this.marks[subject].length === 0) return 0;
+
+    let sum = this.marks[subject].reduce((acc, mark) => acc + mark, 0);
+    return sum / this.marks[subject].length;
+  } 
+  getAverageBySubject(subject) {
+    return this.marks[subject] && this.marks[subject].length > 0
+    ? this.marks[subject].reduce((acc, mark) => acc + mark, 0) / this.marks[subject].length : 0; 
+  }
+    /*if (!this.marks[subject] || this.marks[subject].length === 0) return 0;
+
+    let sum = this.marks[subject].reduce((acc, mark) => acc + mark, 0); 
+  } */
+
+  getAverage() {
+    let subjects = Object.keys(this.marks);
+    
+    if (subjects.length === 0) return 0;
+
+    const totalAverage = subjects.reduce((acc, subject) => {
+      return acc + this.getAverageBySubject(subject);
+    }, 0);
+
+    return totalAverage / subjects.length;
+  }
 }
