@@ -23,14 +23,10 @@ class AlarmClock {
   removeClock(time) {
     this.alarmCollection = this.alarmCollection.filter(alarm => alarm.time !== time);
   }
-
-  getCurrentFormattedTime() {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
-  }
-
+getCurrentFormattedTime(){
+        let now = new Date();
+        return now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', hour12: false });
+    }
   start() {
     if (this.intervalId !== null) {
       return;
